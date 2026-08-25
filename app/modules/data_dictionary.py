@@ -1,0 +1,174 @@
+"""
+DataPilot AI — Data Dictionary Generator
+Auto-generates data dictionary as Word (.docx) document.
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, Optional
+from io import BytesIO
+from datetime import datetime
+
+
+def generate_data_dictionary(
+    df: pd.DataFrame,
+    file_name: str = "dataset",
+    trust_score: Optional[Dict] = None,
+) -> bytes:
+    """
+    Generate a Word (.docx) data dictionary.
+
+    Returns bytes of the .docx file.
+    """
+    from docx import Document
+    from docx.shared import Inches, Pt, RGBColor
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    from docx.enum.table import WD_TABLE_ALIGNMENT
+
+    doc = Document()
+
+    # ── Title ─────────────────────────────────────────────────────────────────
+    title = doc.add_heading("Data Dictionary", level=0)
+    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+    doc.add_paragraph(f"Dataset: {file_name}", style="Subtitle").alignment = WD_ALIGN_PARAGRAPH.CENTER
+    doc.add_paragraph(
+        f"Generated: {datetime.now().strftime('%B %d, %Y at %H:%M')} · "
+        f"DataPilot AI v3.0"
+    ).alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+    doc.add_paragraph("")
+
+    # ── Overview ──────────────────────────────────────────────────────────────
+    doc.add_heading("1. Dataset Overview", level=1)
+    overview_table = doc.add_table(rows=5, cols=2, style="Light Grid Accent 1")
+    overview_data = [
+        ("Total Rows", f"{df.shape[0]:,}"),
+        ("Total Columns", f"{df.shape[1]}"),
+        ("Memory Usage", f"{df.memory_usage(deep=True).sum() / 1024 / 1024:.2f} MB"),
+        ("Missing Values", f"{int(df.isna().sum().sum()):,}"),
+        ("Duplicate Rows", f"{int(df.duplicated().sum()):,}"),
+    ]
+    for i, (label, value) in enumerate(overview_data):
+        overview_table.rows[i].cells[0].text = label
+        overview_table.rows[i].cells[1].text = value
+
+    # Trust Score
+    if trust_score:
+        doc.add_paragraph("")
+        doc.add_heading("2. Data Quality (Trust Score)", level=1)
+        score = trust_score.get("overall", 0)
+        doc.add_paragraph(f"Overall Trust Score: {score:.0%}")
+        dims = trust_score.get("dimensions", {})
+        if dims:
+            trust_table = doc.add_table(rows=len(dims), cols=2, style="Light Grid Accent 1")
+            for i, (dim, val) in enumerate(dims.items()):
+                trust_table.rows[i].cells[0].text = dim.replace("_", " ").title()
+                v = val if isinstance(val, (int, float)) else 0
+                trust_table.rows[i].cells[1].text = f"{v:.0%}"
+
+    # ── Column Dictionary ─────────────────────────────────────────────────────
+    doc.add_paragraph("")
+    doc.add_heading("3. Column Dictionary", level=1)
+
+    col_table = doc.add_table(rows=1, cols=7, style="Light Grid Accent 1")
+    headers = ["Column Name", "Data Type", "Non-Null", "Unique", "Missing %", "Sample Values", "Description"]
+    for i, h in enumerate(headers):
+        col_table.rows[0].cells[i].text = h
+
+    for col in df.columns:
+        series = df[col]
+        row = col_table.add_row()
+        row.cells[0].text = col
+        row.cells[1].text = str(series.dtype)
+        row.cells[2].text = str(int(series.notna().sum()))
+        row.cells[3].text = str(int(series.nunique()))
+        missing_pct = series.isna().sum() / len(df) * 100
+        row.cells[4].text = f"{missing_pct:.1f}%"
+
+        # Sample values
+        samples = series.dropna().head(3).astype(str).tolist()
+        row.cells[5].text = ", ".join(samples[:3])
+
+        # Auto-generate description
+        row.cells[6].text = _auto_describe(series, col)
+
+    # ── Numeric Summary ───────────────────────────────────────────────────────
+    numeric_cols = df.select_dtypes(include=np.number).columns
+    if len(numeric_cols) > 0:
+        doc.add_paragraph("")
+        doc.add_heading("4. Numeric Column Statistics", level=1)
+
+        stats_table = doc.add_table(rows=1, cols=7, style="Light Grid Accent 1")
+        stat_headers = ["Column", "Mean", "Std Dev", "Min", "Median", "Max", "Skewness"]
+        for i, h in enumerate(stat_headers):
+            stats_table.rows[0].cells[i].text = h
+
+        for col in numeric_cols:
+            s = df[col].dropna()
+            row = stats_table.add_row()
+            row.cells[0].text = col
+            row.cells[1].text = f"{s.mean():.4f}" if len(s) > 0 else "N/A"
+            row.cells[2].text = f"{s.std():.4f}" if len(s) > 0 else "N/A"
+            row.cells[3].text = f"{s.min():.4f}" if len(s) > 0 else "N/A"
+            row.cells[4].text = f"{s.median():.4f}" if len(s) > 0 else "N/A"
+            row.cells[5].text = f"{s.max():.4f}" if len(s) > 0 else "N/A"
+            row.cells[6].text = f"{s.skew():.4f}" if len(s) > 2 else "N/A"
+
+    # ── Footer ────────────────────────────────────────────────────────────────
+    doc.add_paragraph("")
+    doc.add_paragraph(
+        "This data dictionary was auto-generated by DataPilot AI v3.0. "
+        "Descriptions are heuristic-based and should be reviewed for accuracy."
+    )
+
+    # Save to bytes
+    buffer = BytesIO()
+    doc.save(buffer)
+    buffer.seek(0)
+    return buffer.getvalue()
+
+
+def _auto_describe(series: pd.Series, col_name: str) -> str:
+    """Generate a heuristic description for a column."""
+    name_lower = col_name.lower().replace("_", " ").replace("-", " ")
+    dtype = series.dtype
+
+    if pd.api.types.is_datetime64_any_dtype(series):
+        return "Date/time values"
+
+    if pd.api.types.is_numeric_dtype(series):
+        nunique = series.nunique()
+        if nunique <= 2:
+            return "Binary indicator (0/1)"
+        if nunique <= 10:
+            return f"Ordinal or categorical code ({nunique} levels)"
+        if "id" in name_lower or "key" in name_lower:
+            return "Unique identifier"
+        if "age" in name_lower:
+            return "Age value"
+        if "price" in name_lower or "cost" in name_lower or "amount" in name_lower:
+            return "Monetary value"
+        if "score" in name_lower or "grade" in name_lower or "rating" in name_lower:
+            return "Score or rating"
+        if "pct" in name_lower or "percent" in name_lower or "rate" in name_lower:
+            return "Percentage or rate"
+        return f"Numeric measure (range: {series.min():.2f} – {series.max():.2f})"
+
+    if pd.api.types.is_object_dtype(series):
+        nunique = series.nunique()
+        if nunique <= 2:
+            return "Binary category"
+        if nunique <= 20:
+            return f"Categorical ({nunique} categories)"
+        if "name" in name_lower:
+            return "Name field"
+        if "email" in name_lower:
+            return "Email address"
+        if "address" in name_lower or "city" in name_lower or "country" in name_lower:
+            return "Geographic/location field"
+        if "date" in name_lower or "time" in name_lower:
+            return "Date/time stored as text"
+        return f"Text field ({nunique} unique values)"
+
+    return "—"
