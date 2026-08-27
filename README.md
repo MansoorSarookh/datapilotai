@@ -148,7 +148,7 @@ The platform emphasizes **usability, speed, interpretability, and data quality**
 │  ┌──────────┬──────────┬────────┬────────┬────────┬───────────┐  │
 │  │ Overview │ Visualize│AI Chat │ Stats  │ Clean  │ ML Studio │  │
 │  └────┬─────┴────┬─────┴───┬────┴───┬────┴───┬────┴─────┬─────┘  │
-│       │          │         │        │        │          │         │
+│       │          │         │        │        │          │        │
 │  ┌────▼──────────▼─────────▼────────▼────────▼──────────▼─────┐  │
 │  │                    COMPONENT LAYER                         │  │
 │  │  sidebar · data_preview · stats_panel · clean_panel ·      │  │
@@ -374,7 +374,7 @@ Computer Science Student & AI Developer
 
 [![GitHub](https://img.shields.io/badge/GitHub-MansoorSarookh-181717?logo=github)](https://GitHub.com/MansoorSarookh)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-mansoorsarookh-0A66C2?logo=linkedin)](https://linkedin.com/in/mansoorsarookh)
-[![YouTube](https://img.shields.io/badge/YouTube-Mansoor--Sarookh-FF0000?logo=youtube)](https://youtube.com/Mansoor-Sarookh)
+[![YouTube](https://img.shields.io/badge/YouTube-Mansoor--Sarookh-FF0000?logo=youtube)](https://youtube.com/MansoorSarookh)
 [![Instagram](https://img.shields.io/badge/Instagram-mansoorsarookh-E4405F?logo=instagram)](https://instagram.com/mansoorsarookh)
 [![Facebook](https://img.shields.io/badge/Facebook-mansoorsarookh-1877F2?logo=facebook)](https://facebook.com/mansoorsarookh)
 [![X](https://img.shields.io/badge/X-mansoorsarookh-000000?logo=x)](https://x.com/mansoorsarookh)
@@ -389,4 +389,3 @@ Computer Science Student & AI Developer
 *DataPilot AI — Transform raw data into intelligence.*
 
 </div>
-]]>
