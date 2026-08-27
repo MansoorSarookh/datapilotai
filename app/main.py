@@ -18,8 +18,10 @@ st.set_page_config(
     page_title="DataPilot AI — AI Data Intelligence Copilot",
     page_icon="🧠",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto", # Options: "expanded", "collapsed", or "auto"
+    
 )
+
 
 # ── CSS loader ────────────────────────────────────────────────────────────────
 def load_css():
