@@ -1,0 +1,339 @@
+/* ═══════════════════════════════════════════════════════
+   DataPilot AI — Premium Dark UI Theme v2.0
+   ═══════════════════════════════════════════════════════ */
+
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ── Base Reset ──────────────────────────────────────── */
+html, body, .stApp {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  background: #020817 !important;
+  color: #e2e8f0 !important;
+}
+
+/* ── Hide Streamlit Chrome ───────────────────────────── */
+#MainMenu, footer, header { visibility: hidden; }
+.stDeployButton { display: none; }
+
+/* ── App Background ──────────────────────────────────── */
+.stApp {
+  background: linear-gradient(135deg, #020817 0%, #0f172a 50%, #0d1b33 100%) !important;
+  min-height: 100vh;
+}
+
+/* ── DataPilot Header ────────────────────────────────── */
+.datapilot-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #312e81 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.15), 0 4px 24px rgba(0,0,0,0.4);
+  margin-bottom: 20px;
+  backdrop-filter: blur(12px);
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.header-logo {
+  font-size: 48px;
+  filter: drop-shadow(0 0 12px rgba(99,102,241,0.6));
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(99,102,241,0.5)); }
+  50%       { filter: drop-shadow(0 0 20px rgba(99,102,241,0.9)); }
+}
+
+.header-title {
+  font-size: 32px !important;
+  font-weight: 900 !important;
+  background: linear-gradient(135deg, #818cf8, #c084fc, #60a5fa) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  margin: 0 !important;
+  letter-spacing: -1px;
+}
+
+.header-subtitle {
+  color: #94a3b8 !important;
+  font-size: 14px !important;
+  margin: 4px 0 0 0 !important;
+  font-weight: 400 !important;
+}
+
+/* ── Trust Banner ────────────────────────────────────── */
+.trust-banner {
+  background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(30,58,95,0.9));
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 14px;
+  color: #cbd5e1;
+  margin-bottom: 16px;
+  backdrop-filter: blur(8px);
+}
+
+/* ── Sidebar ─────────────────────────────────────────── */
+[data-testid="stSidebar"] {
+  background: linear-gradient(180deg, #0b1120 0%, #0f172a 100%) !important;
+  border-right: 1px solid rgba(99,102,241,0.15) !important;
+}
+
+[data-testid="stSidebar"] * {
+  color: #e2e8f0 !important;
+}
+
+[data-testid="stSidebarContent"] {
+  padding: 16px !important;
+}
+
+/* ── Sidebar Stat Card ───────────────────────────────── */
+.sidebar-stat-card {
+  background: rgba(99,102,241,0.08);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 12px;
+  padding: 14px;
+  margin: 12px 0;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: #cbd5e1;
+}
+
+.stat-row:last-child { border-bottom: none; }
+.stat-row strong { color: #818cf8; }
+
+/* ── Welcome Hero ────────────────────────────────────── */
+.welcome-hero {
+  text-align: center;
+  padding: 48px 24px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(192,132,252,0.06));
+  border-radius: 20px;
+  border: 1px solid rgba(99,102,241,0.2);
+  margin: 20px 0 32px 0;
+}
+
+.welcome-hero h2 {
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  color: #e2e8f0 !important;
+  margin-bottom: 12px !important;
+}
+
+.welcome-hero p {
+  color: #94a3b8 !important;
+  font-size: 15px !important;
+  max-width: 600px;
+  margin: 0 auto !important;
+}
+
+/* ── Feature Cards ───────────────────────────────────── */
+.feature-card {
+  background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(30,58,95,0.6));
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99,102,241,0.5);
+  box-shadow: 0 12px 32px rgba(99,102,241,0.15);
+}
+
+.feature-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.feature-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 8px;
+}
+
+.feature-desc {
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+/* ── Streamlit Components ────────────────────────────── */
+/* Tabs */
+[data-testid="stTab"] {
+  background: transparent !important;
+}
+
+.stTabs [data-baseweb="tab-list"] {
+  background: rgba(15,23,42,0.8) !important;
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+  border: 1px solid rgba(99,102,241,0.15) !important;
+}
+
+.stTabs [data-baseweb="tab"] {
+  background: transparent !important;
+  color: #94a3b8 !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s !important;
+}
+
+.stTabs [aria-selected="true"] {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+  color: white !important;
+}
+
+/* Buttons */
+.stButton > button {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 12px rgba(79,70,229,0.3) !important;
+}
+
+.stButton > button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(79,70,229,0.4) !important;
+}
+
+.stButton > button[kind="primary"] {
+  background: linear-gradient(135deg, #059669, #10b981) !important;
+  box-shadow: 0 4px 12px rgba(5,150,105,0.3) !important;
+}
+
+/* Metrics */
+[data-testid="metric-container"] {
+  background: rgba(15,23,42,0.6) !important;
+  border: 1px solid rgba(99,102,241,0.15) !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+[data-testid="metric-container"] [data-testid="stMetricValue"] {
+  color: #818cf8 !important;
+  font-weight: 800 !important;
+}
+
+/* DataFrames */
+[data-testid="stDataFrame"] {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(99,102,241,0.15) !important;
+}
+
+/* Selectbox & Input */
+[data-testid="stSelectbox"] > div > div,
+[data-testid="stTextInput"] > div > div {
+  background: rgba(15,23,42,0.8) !important;
+  border: 1px solid rgba(99,102,241,0.25) !important;
+  border-radius: 10px !important;
+  color: #e2e8f0 !important;
+}
+
+/* Alerts */
+[data-testid="stAlert"] {
+  border-radius: 10px !important;
+  border-left-width: 4px !important;
+}
+
+/* File uploader */
+[data-testid="stFileUploader"] {
+  background: rgba(99,102,241,0.05) !important;
+  border: 2px dashed rgba(99,102,241,0.3) !important;
+  border-radius: 16px !important;
+  padding: 20px !important;
+  transition: all 0.2s !important;
+}
+
+[data-testid="stFileUploader"]:hover {
+  border-color: rgba(99,102,241,0.6) !important;
+  background: rgba(99,102,241,0.08) !important;
+}
+
+/* Expander */
+[data-testid="stExpander"] {
+  background: rgba(15,23,42,0.6) !important;
+  border: 1px solid rgba(99,102,241,0.15) !important;
+  border-radius: 12px !important;
+}
+
+/* Plotly charts */
+[data-testid="stPlotlyChart"] {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+/* Divider */
+hr {
+  border-color: rgba(99,102,241,0.15) !important;
+  margin: 20px 0 !important;
+}
+
+/* Chat messages */
+[data-testid="stChatMessage"] {
+  background: rgba(15,23,42,0.6) !important;
+  border: 1px solid rgba(99,102,241,0.15) !important;
+  border-radius: 14px !important;
+  padding: 12px 16px !important;
+  margin: 8px 0 !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(15,23,42,0.5); }
+::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(99,102,241,0.7); }
+
+/* ── Spinner override ────────────────────────────────── */
+[data-testid="stSpinner"] > div {
+  border-color: #4f46e5 transparent transparent transparent !important;
+}
+
+/* ── Section headers ─────────────────────────────────── */
+h3 {
+  color: #c7d2fe !important;
+  font-weight: 700 !important;
+  font-size: 18px !important;
+}
+
+/* ── Download button ─────────────────────────────────── */
+[data-testid="stDownloadButton"] > button {
+  background: linear-gradient(135deg, #0d9488, #059669) !important;
+  color: white !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  border: none !important;
+}
+
+/* ── Slider ──────────────────────────────────────────── */
+[data-testid="stSlider"] [data-baseweb="slider"] [role="slider"] {
+  background: #4f46e5 !important;
+}
+
+
