@@ -17,7 +17,7 @@
 
 **Live App →** [datapilot-ai.streamlit.app](https://datapilot-ai.streamlit.app)
 &nbsp;|&nbsp;
-**Repository →** [GitHub.com/MansoorSarookh/DataPilot-AI](https://GitHub.com/MansoorSarookh/DataPilot-AI)
+**Repository →** [GitHub.com/MansoorSarookh/DataPilot-AI](https://GitHub.com/MansoorSarookh/DataPilotai)
 
 </div>
 
